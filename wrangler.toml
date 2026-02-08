@@ -1,0 +1,44 @@
+name = "google-drive-index"
+main = "src/index.ts"
+compatibility_date = "2026-01-20"
+
+# ============================================================================
+# REQUIRED: KV Namespace for sessions/cache
+# Run: wrangler kv:namespace create "ENV"
+# Run: wrangler kv:namespace create "ENV" --preview
+# ============================================================================
+[[kv_namespaces]]
+binding = "ENV"
+id = "d23428cb7de44420989292b7400dd8d1"
+preview_id = "c7e4334ce8324d259f097a8228470886"
+
+# ============================================================================
+# REQUIRED: D1 Database for all configuration storage
+# Run: wrangler d1 create google-drive-index-db
+# ============================================================================
+[[d1_databases]]
+binding = "DB"
+database_name = "google-drive-index-db"
+database_id = "05a2b419-23c7-4e75-abd9-4ac2478d2520"
+
+# Static asset import rules - serve files directly from worker
+[[rules]]
+type = "Text"
+globs = ["**/*.txt", "**/*.svg"]
+
+[[rules]]
+type = "Data"
+globs = ["**/*.ico", "**/*.jpg", "**/*.png"]
+
+[build]
+command = "npm install"
+
+# ============================================================================
+# SETUP PASSWORD (required for first-time setup)
+# Change this before deploying!
+# ============================================================================
+[vars]
+SETUP_PASSWORD = "bhadoo"
+
+[env.production]
+name = "google-drive-index"
